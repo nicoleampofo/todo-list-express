@@ -14,9 +14,11 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         console.log(`Connected to ${dbName} Database`)
         db = client.db(dbName)
     })
-    
+
 app.set('view engine', 'ejs')
+// holds static files
 app.use(express.static('public'))
+// leon explained it as formerly body parser. Looks at incoming requests and pull data from the requests. (get, delete, update)
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
@@ -82,12 +84,15 @@ app.delete('/deleteItem', (request, response) => {
     db.collection('todos').deleteOne({thing: request.body.itemFromJS})
     .then(result => {
         console.log('Todo Deleted')
+        // respond to the client that the item has been deleted
         response.json('Todo Deleted')
+        // switch back to lok at main.js deleteItem function
     })
     .catch(error => console.error(error))
 
 })
 
+// this changes when it is pushed to Heroku
 app.listen(process.env.PORT || PORT, ()=>{
     console.log(`Server running on port ${PORT}`)
 })
