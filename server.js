@@ -1,19 +1,25 @@
-const express = require('express')
-const app = express()
-const MongoClient = require('mongodb').MongoClient
-const PORT = 2121
-require('dotenv').config()
+// Express
+const express = require('express');
+const app = express();
 
+const PORT = 1738;
 
-let db,
-    dbConnectionStr = process.env.DB_STRING,
-    dbName = 'todo'
+// MongoDB
+const { MongoClient } = require('mongodb');
+// replace the database connection string with your own, including the new password
+// ignore any deprecation warnings. All that matters is that the connection verification line shows in the console.
+const connectionString = "mongodb+srv://admin/password@cluster1.dji4l0n.mongodb.net/?retryWrites=true&w=majority";
 
-MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-    .then(client => {
-        console.log(`Connected to ${dbName} Database`)
-        db = client.db(dbName)
+const client = new MongoClient(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+// Database
+let db;
+client.connect()
+    .then(() => {
+        db = client.db('todoApp');
+        console.log("Connected to Database");
     })
+    .catch(err => console.error(err));
+
 
 app.set('view engine', 'ejs')
 // holds static files
