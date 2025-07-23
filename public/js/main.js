@@ -1,4 +1,5 @@
 const deleteBtn = document.querySelectorAll('.fa-trash')
+const editBtn = document.querySelectorAll('.fa-pencil-alt')
 const item = document.querySelectorAll('.item span')
 const itemCompleted = document.querySelectorAll('.item span.completed')
 
@@ -12,6 +13,10 @@ Array.from(item).forEach((element)=>{
 
 Array.from(itemCompleted).forEach((element)=>{
     element.addEventListener('click', markUnComplete)
+})
+
+Array.from(editBtn).forEach((element)=>{
+    element.addEventListener('click', updateItem)
 })
 
 async function deleteItem(){
