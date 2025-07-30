@@ -8,7 +8,6 @@ const PORT = 1738;
 const { MongoClient } = require('mongodb');
 // replace the database connection string with your own, including the new password
 // ignore any deprecation warnings. All that matters is that the connection verification line shows in the console.
-const connectionString = "mongodb+srv://admin/password@cluster1.dji4l0n.mongodb.net/?retryWrites=true&w=majority";
 
 const client = new MongoClient(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
 // Database
@@ -44,11 +43,13 @@ app.get('/',async (request, response)=>{
 })
 
 app.post('/addTodo', (request, response) => {
-    db.collection('todos').insertOne({thing: request.body.todoItem, completed: false})
-    .then(result => {
-        console.log('Todo Added')
-        response.redirect('/')
-    })
+    // createIndex makes sure an item is unique on the specified property. In this instance, if there is a "thing" that already exists in the database, the console will throw an error
+   // db.collection('todos').createIndex( { "thing": 1}, {unique: true } )
+        db.collection('todos').insertOne({thing: request.body.todoItem, completed: false})
+        .then(result => {
+            console.log('Todo Added')
+            response.redirect('/')
+        })
     .catch(error => console.error(error))
 })
 
@@ -66,7 +67,6 @@ app.put('/markComplete', (request, response) => {
         response.json('Marked Complete')
     })
     .catch(error => console.error(error))
-
 })
 
 app.put('/markUnComplete', (request, response) => {

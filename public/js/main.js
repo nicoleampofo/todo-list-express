@@ -15,9 +15,6 @@ Array.from(itemCompleted).forEach((element)=>{
     element.addEventListener('click', markUnComplete)
 })
 
-Array.from(editBtn).forEach((element)=>{
-    element.addEventListener('click', updateItem)
-})
 
 async function deleteItem(){
     const itemText = this.parentNode.childNodes[1].innerText
